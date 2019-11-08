@@ -12,6 +12,7 @@ Patterns such as traffic management with intelligent routing and load balancing,
 
 Windows/Mac/Linux laptop with the following installed:
 
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Docker](https://docs.docker.com/docker-for-mac/install/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) (Only install Minikube if you can't use Docker for Mac/Windows)
