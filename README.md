@@ -18,15 +18,14 @@ Windows/Mac/Linux laptop with the following installed:
 - [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) (Only install Minikube if you can't use Docker for Mac/Windows)
 - [Helm](https://helm.sh)
 
-Once you have everything above installed,  download Istio - you will Istio as part of the workshop.
 
-1.  Download Istio:
+Once you have above installed, download Istio:
 
 ```
 curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.3.3 sh -
 ```
 
-1. Ensure you can install Isto by running the pre-check command:
+Ensure you can install Istio by running the pre-check command:
 
 ```
 istioctl verify-install
