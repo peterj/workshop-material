@@ -16,7 +16,7 @@ Windows/Mac/Linux laptop with the following installed:
 - [Docker](https://docs.docker.com/docker-for-mac/install/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) (Only install Minikube if you can't use Docker for Mac/Windows)
-- [Helm](https://helm.sh)
+- [Helm](https://helm.sh) - **Don't install** version 2.16.0 as it doesn't work with Istio (any version before or after that is fine)
 
 
 Once you have above installed, download Istio:
