@@ -7,6 +7,8 @@
     ```bash
     helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
     ```
+    
+    >If you get an error like this: `Error: could not find tiller`, make sure you run `helm init` to initialize Helm
 
 1.  Verify that all 23 Istio CRDs were committed to the Kubernetes api-server using the following command (you should get a response of 23):
 
