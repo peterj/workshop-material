@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+    name: greeter-service
+spec:
+    hosts:
+        - greeter-service
+    http:
+        - route:
+              - destination:
+                    host: greeter-service
+                    port:
+                        number: 3000

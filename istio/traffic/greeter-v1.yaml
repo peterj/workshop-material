@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: greeter-service-v1
+    labels:
+        app: greeter-service
+        version: v1
+spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: greeter-service
+        version: v1
+    template:
+        metadata:
+            labels:
+                app: greeter-service
+                version: v1
+        spec:
+            containers:
+                - image: learnistio/greeter-service:1.0.0
+                  imagePullPolicy: Always
+                  name: svc
+                  ports:
+                      - containerPort: 3000
+---
+kind: Service
+apiVersion: v1
+metadata:
+    name: greeter-service
+    labels:
+        app: greeter-service
+spec:
+    selector:
+        app: greeter-service
+    ports:
+        - port: 3000
+          name: http

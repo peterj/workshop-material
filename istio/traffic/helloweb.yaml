@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: helloweb
+    labels:
+        app: helloweb
+        version: v1
+spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: helloweb
+        version: v1
+    template:
+        metadata:
+            labels:
+                app: helloweb
+                version: v1
+        spec:
+            containers:
+                - image: learnistio/hello-web:1.0.0
+                  imagePullPolicy: Always
+                  name: web
+                  ports:
+                      - containerPort: 3000
+                  env:
+                      - name: GREETER_SERVICE_URL
+                        value: 'http://greeter-service:3000'
+---
+kind: Service
+apiVersion: v1
+metadata:
+    name: helloweb
+    labels:
+        app: helloweb
+spec:
+    selector:
+        app: helloweb
+    ports:
+        - port: 3000
+          name: http

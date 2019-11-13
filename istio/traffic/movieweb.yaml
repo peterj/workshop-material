@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: movieweb
+    labels:
+        app: movieweb
+        version: v1
+spec:
+    replicas: 3
+    template:
+        metadata:
+            labels:
+                app: movieweb
+                version: v1
+        spec:
+            containers:
+                - image: learnistio/movie-web:1.0.0
+                  imagePullPolicy: Always
+                  name: movieweb
+                  ports:
+                      - containerPort: 3000
+                  env:
+                      - name: THEMOVIEDB_API_KEY
+                        value: '<API_KEY_HERE>'
+---
+kind: Service
+apiVersion: v1
+metadata:
+    name: movieweb
+    labels:
+        app: movieweb
+spec:
+    selector:
+        app: movieweb
+    ports:
+        - port: 3000
+          name: http

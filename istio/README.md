@@ -47,3 +47,8 @@ Once you see output similar to the one above, you have successfully installed Is
 kubectl label namespace default istio-injection=enabled
 ```
 
+## Exercises
+
+- [Traffic management](./traffic/README.md)
+- [Resiliency](./resiliency/README.md)
+- [Security](./security/README.md)

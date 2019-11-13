@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+    name: helloweb
+spec:
+    hosts:
+        - '*'
+    gateways:
+        - gateway
+    http:
+        - route:
+              - destination:
+                    host: helloweb.default.svc.cluster.local
+                    port:
+                        number: 3000
