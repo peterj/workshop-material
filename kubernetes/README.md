@@ -487,5 +487,5 @@ EOF
 Make sure you don't forget to delete the quota before moving on:
 
 ```
-kubectl delete resource quota pods-limit
+kubectl delete quota pods-limit
 ```
