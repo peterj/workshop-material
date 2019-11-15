@@ -335,16 +335,16 @@ The application reads all file names from the `app/my-secrets` folder and displa
    ...
    spec:
        containers:
-       - name: web
-         ...
-         volumeMounts:
-         - name: my-secret-volume
-           mountPath: "/app/my-secrets"
-           readOnly: true
+         - name: web
+           ...
+           volumeMounts:
+             - name: my-secret-volume
+               mountPath: "/app/my-secrets"
+               readOnly: true
        volumes:
-       - name: my-secret-volume
-         secret:
-           secretName: hello-kube-secret
+         - name: my-secret-volume
+           secret:
+             secretName: hello-kube-secret
        ...
    ```
 
@@ -487,5 +487,5 @@ EOF
 Make sure you don't forget to delete the quota before moving on:
 
 ```
-kubectl delete resource quota pods-limit
+kubectl delete resourcequota pods-limit
 ```
