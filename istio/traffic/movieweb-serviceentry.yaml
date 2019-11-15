@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
-  name: movieweb
+  name: api-themovieweb
 spec:
   hosts:
   - api.themoviedb.org
