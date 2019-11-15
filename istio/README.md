@@ -16,6 +16,24 @@
     kubectl -n istio-system get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
     ```
 
+1. Create a secret for Kiali (you can use "admin" for both username and password to access Kiali):
+
+   ```
+   cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: kiali
+      namespace: istio-system
+      labels:
+        app: kiali
+    type: Opaque
+    data:
+      username: YWRtaW4=
+      passphrase: YWRtaW4=
+    EOF
+   ```
+
 1.  Install Istio
 
     ```bash
