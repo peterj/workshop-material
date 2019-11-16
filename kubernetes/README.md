@@ -489,3 +489,16 @@ Make sure you don't forget to delete the quota before moving on:
 ```
 kubectl delete quota pods-limit
 ```
+
+
+## Clean up
+
+Before continuing, making sure you delete the deployments, services and other resources you created as part of this exercise:
+
+```
+kubectl delete deployment helloworld
+kubectl delete service helloworld
+
+kubectl delete deployment hello-kube
+kubectl delete service hello-kube
+```

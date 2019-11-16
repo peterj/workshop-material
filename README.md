@@ -19,6 +19,8 @@ Windows/Mac/Linux laptop with the following installed:
 - [Helm](https://helm.sh) - **Don't install** version 2.16.0 as it doesn't work with Istio (any version before or after that is fine)
 
 
+>Note: In order to install and run Istio on Minikube/Docker for Mac/Windows, you need to allocate enough CPU/memory. It is recommened to have at least 4 CPUs an 10 GB of memory allocated for the Kubernetes cluster.
+
 Once you have above installed, download Istio:
 
 ```

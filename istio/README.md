@@ -1,6 +1,8 @@
 
 ## Installing Istio
 
+Before you install Istio, make sure you have allocated enough CPU/memory in Docker for Mac/Windows or Minikube. It is recommended you allocate 4 CPUs an 10 GB of memory.
+
 1.  In the terminal/console, open the `istio-1.3.3` folder (or the folder where you downloaded/extracted the Istio to).
 1.  Install Istio custom resource definitions (CRD) and wait for about a minute or so for the CRDs to get applied.
 
@@ -16,7 +18,7 @@
     kubectl -n istio-system get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
     ```
 
-1. Create a secret for Kiali (you can use "admin" for both username and password to access Kiali):
+1. Create a secret for Kiali. Secret needs a base64 encoded value (e.g. `YWRtaW4=`) for both username and password. The decoded value of `YWRtaW4=` equals to "admin", so once you deployed this secret, you can log in to Kiali using "admin" as username and password):
 
    ```
    cat <<EOF | kubectl apply -f -

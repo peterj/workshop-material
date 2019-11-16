@@ -30,12 +30,6 @@ In this part you will deploy the Hello Web and a Greeter service v1 to the clust
     kubectl create -f greeter-v1.yaml
     ```
 
-    Or use this command with minimal Istio installation:
-
-    ```
-    kubectl create -f <(istioctl kube-inject -f greeter-v1.yaml)
-    ```
-
 1. Verify the deployment by running `kubect get deploy greeter-service-v1`:
 
     ```bash
