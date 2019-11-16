@@ -1,4 +1,4 @@
-# JFuture 2019 - Service Mesh Workshop
+# Kubernetes and Service Mesh Workshop
 
 In this workshop, we will start with the basics of Kubernetes and explanation of service meshes and explain how to do zero downtime deployments, A/B tests, how to intelligently route traffic and handle failures.
 
