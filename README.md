@@ -24,3 +24,6 @@ To complete all exercises in this workshop, you will need a Windows/Mac/Linux la
 
 The individual sections of the workshop include more detailed installation instructions. 
 
+# Contributions
+
+All contributions are more than welcome!
