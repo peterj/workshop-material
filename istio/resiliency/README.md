@@ -1,47 +1,39 @@
 # Service Resiliency Exercises
 
-You need full Istio installation that includes Grafana, Jaeger and Kiali to use the dashboard. Note that you can still do the exercies and use `curl` to observe the errors/timeouts/retries.
+You need the Helloweb and Greeter services deployed:
+```
+kubectl apply -f helloweb.yaml
+kubectl apply -f greeter-v1.yaml
+kubectl apply -f greeter-v2.yaml
+kubectl apply -f helloweb-virtualservice.yaml
+```
 
-You need the Helloweb and Greeter services deployed (look in the [Traffic Management exercises](../traffic/README.md) on how to deploy those services)
+To quickly generate some traffic, you can run this command from a separate terminal window:
+
+```
+while true; do curl http://localhost:8080; done
+```
 
 ## Looking at the dashboard
 
-1. Open Grafana (http://localhost:3000) and look around the dashboards:
+1. Open Grafana and look around the dashboards:
 
 ```bash
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+istioctl dash grafana
 ```
 
-1. Open Jaeger (http://localhost:16686) and look around:
+1. Open Jaeger and look around:
 
 ```bash
+istioctl dash jaeger
 kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686 &
 ```
 
-1. Open Kiali (http://localhost:20001/kiali/console) and look around:
+1. Open Kiali and look around (use `admin` for both username and password):
 
 ```
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001 &
+istioctl dash kiali
 ```
-
-Note if you get an error saying Kiali secret is not found, make sure you create one like this: 
-```
-cat <<EOF | kubectl apply -f -
- apiVersion: v1
- kind: Secret
- metadata:
-   name: kiali
-   namespace: istio-system
-   labels:
-     app: kiali
- type: Opaque
- data:
-   username: YWRtaW4=
-   passphrase: YWRtaW4=
- EOF
- ```
-Once you created the secret, restart the Kiali pod. Run `kubectl get pods -n istio-system` to get the name of the Kiali pod and then use `kubectl delete pod [kiali-pod-name] -n istio-system` to delete the pod.
-
 
 ## Slowing Services Down
 

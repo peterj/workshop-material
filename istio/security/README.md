@@ -1,6 +1,6 @@
 # Security Exercises
 
-1. Deploy the Helloweb, Hreeter-v1 and the Hateway resource from the `./traffic` folder:
+1. Deploy the Helloweb, Hreeter-v1 and the Gateway resource (if not already deployed) from the `./traffic` folder:
 
 ```
 kubectl apply -f gateway.yaml
@@ -12,7 +12,7 @@ kubectl apply -f greeter-v1.yaml
 1. Check that you can make requests to the helloweb and you get a response back:
 
 ```
-curl http://localhost
+curl http://localhost:8080
 ```
 
 ## Use JWT for authentication
@@ -39,9 +39,11 @@ EOF
 If you make a request to the service, you will get the following error:
 
 ```
-$ curl http://localhost
+$ curl http://localhost:8080
 Origin authentication failed.
 ```
+
+>Note that it can take a couple of seconds for the changes to propagate, so if you don't see the error right away - wait 10 seconds and then try again.
 
 This is expected, because we didn't provide a valid JWT token. Let's get a valid token first and store it in a variable:
 
@@ -49,7 +51,7 @@ This is expected, because we didn't provide a valid JWT token. Let's get a valid
 token=$(curl https://gist.githubusercontent.com/peterj/3990de82f56d43ea1ced66fd30435e31/raw/a81c70cdef41020abfa5c93a127ea6265a270d2d/jwt-token.json -s)
 ```
 
-> Note: The decoded token contains the following payload:
+> The decoded token contains the following payload:
     ```
     {
     "exp": 4685989700,
@@ -63,7 +65,7 @@ token=$(curl https://gist.githubusercontent.com/peterj/3990de82f56d43ea1ced66fd3
 Now let's make the same request again, but this time we provide the token in the header:
 
 ```
-$ curl -H "Authorization: Bearer $token" http://localhost
+$ curl -H "Authorization: Bearer $token" http://localhost:8080
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 
 <pre>frontend: 1.0.0</pre>
@@ -75,7 +77,9 @@ $ curl -H "Authorization: Bearer $token" http://localhost
 </div>
 ```
 
-## Enable RBAC
+Notice that this time, you get the correct response back from the service.
+
+## Enable RBAC (Role Based Access Control)
 
 1. Turn RBAC on for the helloweb service:
 
@@ -95,11 +99,11 @@ EOF
 1. If you make a request now, you will get an error:
 
 ```
-$ curl -H "Authorization: Bearer $token" http://localhost
+$ curl -H "Authorization: Bearer $token" http://localhost:8080
 RBAC: access denied
 ```
 
-Next, let's create a service role and binding that will only allow a token that have a field `foo` with the value `bar`:
+Next, let's create a service role and binding that allows a token that has a field `foo` with the value `bar`:
 
 ```
 cat << EOF | kubectl apply -f -

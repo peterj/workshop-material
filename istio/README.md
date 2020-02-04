@@ -1,48 +1,27 @@
+# Installing Istio
 
-## Installing Istio
+Before you continue, make sure you have a running Kubernetes cluster. You can run `kubectl cluster-info` to check everything is good.
 
-Before you install Istio, make sure you have allocated enough CPU/memory in Docker for Mac/Windows or Minikube. It is recommended you allocate 4 CPUs an 10 GB of memory.
+1. Download the latest Istio (1.4.3):
+```
+curl -L https://git.io/getLatestIstio | sh -
+```
 
-1.  In the terminal/console, open the `istio-1.3.3` folder (or the folder where you downloaded/extracted the Istio to).
-1.  Install Istio custom resource definitions (CRD) and wait for about a minute or so for the CRDs to get applied.
+1. Ensure you can install Istio by running the pre-check command:
 
-    ```bash
-    helm install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-    ```
-    
-    >If you get an error like this: `Error: could not find tiller`, make sure you run `helm init` to initialize Helm
+```
+istioctl verify-install
+```
 
-1.  Verify that all 23 Istio CRDs were committed to the Kubernetes api-server using the following command (you should get a response of 23):
+1.  In the terminal/console, open the `istio-1.4.3` folder (or the folder where you downloaded/extracted the Istio to).
 
-    ```bash
-    kubectl -n istio-system get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-    ```
-
-1. Create a secret for Kiali. Secret needs a base64 encoded value (e.g. `YWRtaW4=`) for both username and password. The decoded value of `YWRtaW4=` equals to "admin", so once you deployed this secret, you can log in to Kiali using "admin" as username and password):
-
-   ```
-   cat <<EOF | kubectl apply -f -
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: kiali
-      namespace: istio-system
-      labels:
-        app: kiali
-    type: Opaque
-    data:
-      username: YWRtaW4=
-      passphrase: YWRtaW4=
-    EOF
-   ```
-
-1.  Install Istio
+1. Install the demo profile of Istio:
 
     ```bash
-    helm install install/kubernetes/helm/istio --set tracing.enabled=true --set tracing.ingress.enabled=true --set pilot.traceSampling=100 --set pilot.resources.requests.memory="512Mi" --set grafana.enabled=true --set prometheus.enabled=true --set kiali.enabled=true --set "kiali.dashboard.jaegerURL=http://localhost:16686/jaeger" --set "kiali.dashboard.grafanaURL=http://localhost:3000" --name istio --namespace istio-system
+    istioctl manifest apply --set profile=demo
     ```
 
-1.  Verify the installation:
+1.  Verify the installation/wait for all pods to be in the **Running** state:
 
     ```bash
     $ kubectl get pods -n istio-system
@@ -69,7 +48,17 @@ Once you see output similar to the one above, you have successfully installed Is
 kubectl label namespace default istio-injection=enabled
 ```
 
-## Exercises
+## Uninstalling Istio
+
+To remove all Istio resources installed on the cluster, run: 
+
+```
+istioctl manifest generate --set profile=demo | kubectl delete -f -
+```
+
+## What next?
+
+Now that you have everything set up, you can continue with the exercises below:
 
 - [Traffic management](./traffic/README.md)
 - [Resiliency](./resiliency/README.md)

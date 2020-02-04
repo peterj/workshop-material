@@ -40,7 +40,9 @@ In this part you will deploy the Hello Web and a Greeter service v1 to the clust
 
 ## 2. Access the Hello Web service
 
-We will use the Istio ingress gateway to access our service. Since we are using Docker for Mac, the ingress is automatically exposed to us on http://localhost. However, we still need to deploy a gateway and a virtual service.
+We will use the Istio ingress gateway to access our service. Since you can't expose services through an external IP (i.e. the LoadBalancer service type), you will need to run a port forward command, that will forward all traffic from your computer (e.g. `http://localhost:8080`) to the service running inside the cluster (`istio-ingressgateway`) 
+
+Regardless, you still need to deploy a gateway and a virtual service.
 
 1. Deploy the gateway:
 
@@ -54,7 +56,16 @@ kubectl create -f gateway.yaml
 kubectl create -f helloweb-virtualservice.yaml
 ```
 
-1. Try accessing the service at `http://localhost`
+1. Open a separate terminal window and run:
+
+```
+kubectl port-forward -n istio-system --address localhost service/istio-ingressgateway 8080:80
+```
+>Note: you can also run the above command with `sudo` and expose the service on `http://localhost`, but it doesn't make much difference - everything will work the same way.
+
+
+1. Now you can try and access the service at `http://localhost:8080`
+
 
 ## 3. Clean up (OPTIONAL)
 
@@ -77,8 +88,6 @@ kubectl delete -f helloweb-virtualservice.yaml
     kubectl apply -f greeter-virtualservice.yaml
     ```
 
-    Note: don't forget `istioctl kube-inject` when applying `greeter-v2.yaml` if using minimal Istio installation)
-
 ## 2. Deploy the destination rule
 
 1. Deploy the destination rule where we define the version subsets (v1 and v2):
@@ -87,7 +96,7 @@ kubectl delete -f helloweb-virtualservice.yaml
     kubectl apply -f dest-rule.yaml
     ```
 
-1) Open http://localhost and refresh the page a couple of times - you should get different responses from the greeter service, because we haven't defined any traffic routing rules yet.
+1) Open http://localhost:8080 and refresh the page a couple of times - you should get different responses from the greeter service, because we haven't defined any traffic routing rules yet.
 
 ## 3. Split traffic between v1 and v2 versions of the Greeter service
 
@@ -107,11 +116,16 @@ The v3 version of the greeter service uses an image named `learnistio/greeter-se
 kubectl apply -f greeter-virtualservice-v2-firefox.yaml
 ```
 
+>You can use the following `curl` command to 'fake' the requests from a Firefox browser:
+    ```
+    curl -H "User-Agent: Firefox" localhost:8080
+    ```
+
 1. Update the virtual service to route all traffic with header `x-user: alpha` to v3 and traffic with header `x-user: beta` to v2, while all other traffic gets routed to v1.
 
 # Movie Web (external API)
 
-Make sure you clean up the Hello web and Greeter service deployments, virtual services, and destination rules before continuing.
+Make sure you clean up the Hello web and Greeter service deployments, virtual services, and destination rules before continuing. You can use `kubectl delete -f [filename.yaml]` to delete all resources that were defined in the `filename.yaml`. 
 
 We will deploy a Movie Web frontend that tries to access and talk to an external API (themoviedb.org).
 

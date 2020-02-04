@@ -2,21 +2,42 @@
 
 In this exercise you will install a Kubernetes cluster (or use a cloud-managed one) to deploy an application and try out some `kubectl` commands. You will also learn how Deployments and Services look like in YAML and how to create ConfigMaps, Secrets and use readiness probes.
 
-## Prerequisites
+## Installing Kubernetes and the CLI
 
-- Docker for Mac/Windows (or Docker for Linux) with Kubernetes support enabled
-- Kubernetes CLI (`kubectl`) (https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- Helm (https://helm.sh)
+We will be using the tool called `kind` to run a local Kubernetes cluster using Docker container nodes. To install `kind`, follow the instructions below:
 
-If you're using Linux, you will have to install [Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-Minikube for running a Kubernetes cluster)
+1. For Mac/Linux, run the following:
+
+```
+curl -Lo ./kind "https://github.com/kubernetes-sigs/kind/releases/download/v0.7.0/kind-$(uname)-amd64"
+chmod +x ./kind
+mv ./kind /usr/local/bin/kind
+```
+
+>Alternatively, use `brew install kind` if using Homebrew.
+
+1. For Windows, run (replace `dir-in-your-PATH` with an actual folder name):
+```
+curl.exe -Lo kind-windows-amd64.exe https://github.com/kubernetes-sigs/kind/releases/download/v0.7.0/kind-windows-amd64
+Move-Item .\kind-windows-amd64.exe c:\dir-in-your-PATH\kind.exe
+```
+
+1. Create the cluster:
+
+```
+kind create cluster
+```
+
+1. Install the Kubernetes CLI by follwing the instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
 
 ### Other Tools for Kubernetes
+
+Note that these are optional and not needed to go through the workshop. 
 
 - [K9s - Kubernetes CLI To Manage Your Clusters In Style](https://github.com/derailed/k9s)
 - [Kubectx](https://github.com/ahmetb/kubectx/)
 - [Popeye - Kubernetes cluster resource sanitizer](https://github.com/derailed/popeye)
-- [kind - run Kubernetes cluster using Docker container 'nodes'](https://github.com/kubernetes-sigs/kind)
 
 ## Getting familiar
 
@@ -106,15 +127,21 @@ Above command gives you more details about the desired resource instance.
 
 Any containers running inside Kubernetes need to be explicitly exposed in order to be able to access them from the outside of the cluster.
 
-You can use the `expose` command to create a Kubernetes service and 'expose' your application:
+You can use the `expose` command to create a Kubernetes service and 'expose' your application. Note that since you are using `kind` you will have to use `port-forward` command to proxy the calls from your local computer to the service and pods running inside the cluster.
 
+Expose the deployment first (this creates a Kubernetes service):
 ```
 kubectl expose deployment helloworld --port=8080 --target-port=3000 --type=LoadBalancer
 ```
 
 The output of the above command will simply be: `service/helloworld exposed`.
 
-The above command exposes the deployment called `helloworld` on port `8080`, talking to the target port (container port) `3000`. Additionall, we are saying we want to expose this on a service of type LoadBalancer - this will allocate a 'public' IP for us (`localhost` when running Docker for Mac), so we can acccess the application on e.g. `http://localhost:8080`.
+The above command exposes the deployment called `helloworld` on port `8080`, talking to the target port (container port) `3000`. Additionall, we are saying we want to expose this on a service of type LoadBalancer - this will allocate a 'public' IP for us (`localhost` when running Docker for Mac and an actual IP address if using a cloud-managed cluster). When using `kind`, make sure you run the following command from a separate terminal window:
+
+```
+kubectl port-forward --address localhost service/helloworld 8080:8080
+```
+Now you can acccess the application on e.g. `http://localhost:8080`.
 
 > Minikube: Use the Minikube IP address (get it with `minikube ip`) and the internal port (run `kubectl get services` and use second port in the pair (e.g. `8080:30012` -> use `30012`)) to access the exposed application or type `minikube service helloworld` to open it in your web browser.
 
