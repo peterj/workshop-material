@@ -8,7 +8,7 @@ This workshops takes you through basics of Kubernetes and service mesh. You will
 - Kubernetes Docs: https://kubernetes.io
 - Istio Docs: https://istio.io
 
-Join the Discord server: https://discord.gg/Pjtm6g
+Join the Discord server: https://discord.gg/m9EUuVn
 
 # Workshop Outline
 
