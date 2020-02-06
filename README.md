@@ -2,6 +2,14 @@
 
 This workshops takes you through basics of Kubernetes and service mesh. You will install and run everything from your computer. Make sure you check the list of prerequisites and install them.
 
+### Additional resources
+- Learn cloud native: https://learncloudnative.com
+- Learn Istio service mesh (book & video course): https://learnistio.com
+- Kubernetes Docs: https://kubernetes.io
+- Istio Docs: https://istio.io
+
+Join the Discord server: https://discord.gg/Pjtm6g
+
 # Workshop Outline
 
 1. [Kubernetes basics](./kubernetes/README.md)
