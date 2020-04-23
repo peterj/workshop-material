@@ -16,10 +16,10 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
-    "hbs": "^4.1.0",
-    "morgan": "^1.9.1"
+    "hbs": "^4.1.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.2"
+    "nodemon": "^2.0.3"
   }
 }
