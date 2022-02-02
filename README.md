@@ -4,7 +4,7 @@ This workshops takes you through basics of Kubernetes and service mesh. You will
 
 ### Additional resources
 - Learn cloud native: https://learncloudnative.com
-- Learn Istio service mesh (book & video course): https://learnistio.com
+- Start Kubernetes course: https://startkubernetes.com
 - Kubernetes Docs: https://kubernetes.io
 - Istio Docs: https://istio.io
 
